@@ -1,3 +1,9 @@
+variable "allow_delete_named_query" {
+  type        = bool
+  description = "If true, allows the deletion of named queries."
+  default     = false
+}
+
 variable "source_buckets" {
   type        = list(string)
   description = "The ARNs of the AWS S3 buckets that store the source data.  Use [\"*\"] to allow all buckets."

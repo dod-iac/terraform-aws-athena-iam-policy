@@ -254,6 +254,25 @@ data "aws_iam_policy_document" "main" {
     }
   }
 
+  dynamic "statement" {
+    for_each = var.allow_delete_named_query ? [1] : []
+    content {
+      actions = [
+        "athena:DeleteNamedQuery"
+      ]
+      effect    = "Allow"
+      resources = var.workgroups
+      dynamic "condition" {
+        for_each = var.require_mfa ? [var.require_mfa] : []
+        content {
+          test     = "Bool"
+          variable = "aws:MultiFactorAuthPresent"
+          values   = ["true"]
+        }
+      }
+    }
+  }
+
   #
   # Sources
   #
